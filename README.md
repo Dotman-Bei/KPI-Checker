@@ -30,7 +30,7 @@ After deploying, open `https://<your-app>.vercel.app/api/check?diagnose=1`. It s
 - **Automatic FAIL:** an address with no contract code, or one that does not exist on mainnet.
 - **UNABLE TO VERIFY:** BotScan is unreachable or returns an error.
 
-**Website.** The checker loads the page and treats links inside `<footer>`, `[role=contentinfo]` or any element whose id or class contains "footer" as footer links. If there is none, it uses the bottom of the page. For each required link it reports one of these outcomes:
+**Website.** The checker loads the page and treats links inside `<footer>`, `[role=contentinfo]` or any element whose id or class contains "footer" as footer links. If the site has no footer element, it checks the links across the whole page. If a site's firewall (for example Vercel Security Checkpoint or Cloudflare) blocks automated visitors, the result is UNABLE TO VERIFY with an explanation; the checker does not try to get around bot protection. For each required link it reports one of these outcomes:
 
 - correct and visible
 - hidden

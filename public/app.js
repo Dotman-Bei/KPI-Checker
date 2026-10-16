@@ -82,7 +82,11 @@ function websitePanel(w) {
   if (w.status === 'UNABLE') body.push(h('p', {}, w.error));
   const how = { rendered: 'Checked in a real browser', static: 'Checked from the page HTML', source: 'Checked by reading the footer from the site’s JavaScript' }[w.method] || null;
   if (how) {
-    const where = w.footerMethod === 'element' ? ', using the page’s footer element.' : ', using the bottom of the page (no footer element was found).';
+    const where = {
+      element: ', using the page’s footer element.',
+      bottom: ' (the site has no footer element, so the whole page was checked).',
+      none: ' (the site has no footer component, so every link in its code was checked).',
+    }[w.footerMethod] || '.';
     body.push(h('p', { class: 'note' }, how + where, w.finalUrl && w.finalUrl !== w.url ? ` The site redirected to ${w.finalUrl}.` : ''));
   }
   return h('article', { class: 'check', 'data-step': '', style: '--i:3' }, body);
