@@ -80,7 +80,7 @@ function websitePanel(w) {
       ))));
   }
   if (w.status === 'UNABLE') body.push(h('p', {}, w.error));
-  const how = w.method === 'rendered' ? 'Checked in a real browser' : w.method === 'static' ? 'Checked from the page HTML' : null;
+  const how = { rendered: 'Checked in a real browser', static: 'Checked from the page HTML', source: 'Checked by reading the footer from the site’s JavaScript' }[w.method] || null;
   if (how) {
     const where = w.footerMethod === 'element' ? ', using the page’s footer element.' : ', using the bottom of the page (no footer element was found).';
     body.push(h('p', { class: 'note' }, how + where, w.finalUrl && w.finalUrl !== w.url ? ` The site redirected to ${w.finalUrl}.` : ''));

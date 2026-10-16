@@ -13,7 +13,7 @@ Requires Node 22+. Locally no `npm install` is needed. The one dependency is onl
 npm start            # http://localhost:4300  (PORT=8080 npm start to change; the next free port is used if busy)
 ```
 
-For the footer check the server uses a local Chrome/Chromium in headless mode, so footers built by JavaScript are seen the way a visitor sees them. It finds Chrome in the usual system paths or in Puppeteer/Playwright caches; set `CHROME_PATH` to point at one explicitly. Without a browser it falls back to reading the static HTML. If no footer element is found in that HTML, it reports UNABLE TO VERIFY instead of FAIL.
+For the footer check the server uses a local Chrome/Chromium in headless mode, so footers built by JavaScript are seen the way a visitor sees them. It finds Chrome in the usual system paths or in Puppeteer/Playwright caches; set `CHROME_PATH` to point at one explicitly. If the browser is missing or fails to start, the checker reads the static HTML instead. If the footer isn't in the HTML (single-page apps built with React, Vite or Vue), it downloads the site's own JavaScript files and reads the footer component from the code (`lib/source-scan.mjs`). It resolves link addresses built from constants, templates and link arrays. A footer link whose address is only computed while the page runs is reported as UNABLE TO VERIFY, never as a pass. Set `CHECKER_NO_BROWSER=1` to force this mode.
 
 ## Deploy to Vercel
 
