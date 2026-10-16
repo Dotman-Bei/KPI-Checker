@@ -7,13 +7,17 @@ Checks whether a Botchain project meets two requirements and shows PASS, FAIL or
 
 ## Run
 
-Requires Node 22+. There are no dependencies to install.
+Requires Node 22+. Locally no `npm install` is needed. The one dependency is only used on Vercel.
 
 ```bash
 npm start            # http://localhost:4300  (PORT=8080 npm start to change; the next free port is used if busy)
 ```
 
 For the footer check the server uses a local Chrome/Chromium in headless mode, so footers built by JavaScript are seen the way a visitor sees them. It finds Chrome in the usual system paths or in Puppeteer/Playwright caches; set `CHROME_PATH` to point at one explicitly. Without a browser it falls back to reading the static HTML. If no footer element is found in that HTML, it reports UNABLE TO VERIFY instead of FAIL.
+
+## Deploy to Vercel
+
+The repo is ready for Vercel: `public/` is served as static files and `api/check.mjs` runs as a serverless function (settings in `vercel.json`). On Vercel the footer check uses the serverless Chrome build from `@sparticuz/chromium`. When importing the project, keep Root Directory `./` and the defaults. No build command or environment variables are needed.
 
 ## How each check works
 

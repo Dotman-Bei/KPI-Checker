@@ -3,55 +3,12 @@ import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { checkContract } from './lib/contract.mjs';
-import { checkWebsite } from './lib/website.mjs';
+import { rateLimited, runCheck } from './lib/check.mjs';
 import { closeBrowser } from './lib/browser.mjs';
 
 const PORT = Number(process.env.PORT) || 4300;
 const PUBLIC_DIR = join(fileURLToPath(new URL('.', import.meta.url)), 'public');
 const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.svg': 'image/svg+xml', '.png': 'image/png' };
-
-// Simple per-IP limit: each check opens a website and calls BotScan many times.
-const hits = new Map();
-function rateLimited(ip) {
-  const now = Date.now();
-  const recent = (hits.get(ip) || []).filter((t) => now - t < 60_000);
-  recent.push(now);
-  hits.set(ip, recent);
-  return recent.length > 10;
-}
-
-function overall(contract, website) {
-  const statuses = [contract.status, website.status];
-  if (statuses.includes('FAIL')) return 'FAIL';
-  if (statuses.includes('UNABLE')) return 'UNABLE';
-  return 'PASS';
-}
-
-async function runCheck({ contract: contractInput, website: websiteInput }) {
-  const [contract, website] = await Promise.all([checkContract(contractInput), checkWebsite(websiteInput)]);
-  const status = overall(contract, website);
-  const unverified = [
-    contract.status === 'UNABLE' && { check: 'Contract activity', reason: contract.error },
-    website.status === 'UNABLE' && { check: 'Website footer', reason: website.error },
-  ].filter(Boolean);
-  return {
-    checkedAt: new Date().toISOString(),
-    product: {
-      name: website.product.name || 'Unknown Product Name',
-      identified: Boolean(website.product.name),
-      source: website.product.source,
-    },
-    status,
-    contract,
-    website,
-    failures: [
-      ...contract.failures.map((f) => ({ check: 'Contract activity', ...f })),
-      ...website.failures.map((f) => ({ check: 'Website footer', ...f })),
-    ],
-    unverified,
-  };
-}
 
 async function readBody(req, limit = 10_000) {
   let body = '';

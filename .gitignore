@@ -1,6 +1,7 @@
-node_modules/
-server.log
 *.log
-.taste-skill/
 .claude/
 .env
+.taste-skill/
+.vercel/
+node_modules/
+server.log
