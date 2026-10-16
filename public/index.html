@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Botchain Project Checker</title>
+  <meta name="description" content="Check whether a Botchain project meets the contract activity and website footer requirements.">
+  <meta property="og:site_name" content="Botchain Project Checker">
+  <script>document.documentElement.classList.add('js')</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav class="nav wrap">
+    <a class="wordmark" href="/">Project Checker</a>
+    <div class="nav-links">
+      <a class="link" href="#rules">What we check</a>
+      <a class="link" href="https://scan.botchain.ai/" target="_blank" rel="noopener">BotScan</a>
+      <a class="link only-wide" href="https://dev-docs.bohr.life/docs/Developers/" target="_blank" rel="noopener">Developer docs</a>
+    </div>
+  </nav>
+
+  <header class="hero wrap">
+    <div class="hero-copy">
+      <h1 class="hero-title"><span data-rise style="--i:0">Check your</span> <span data-rise style="--i:1">Botchain project</span></h1>
+      <p class="hero-lead" data-rise style="--i:2">Paste your mainnet contract and your website. We read the contract's activity on BotScan, open your site, check its footer for the two required links, and tell you exactly what to fix.</p>
+    </div>
+
+    <div class="stage" id="check">
+      <form class="panel" id="form" data-ui novalidate>
+        <div class="field-group">
+          <label for="contract">Contract address or BotScan link</label>
+          <input id="contract" name="contract" type="text" autocomplete="off" spellcheck="false" required
+                 placeholder="0x… or https://scan.botchain.ai/address/0x…">
+          <p class="hint">BOT Chain mainnet only (chain ID 677). Testnet contracts are not accepted.</p>
+        </div>
+        <div class="field-group">
+          <label for="website">Website URL</label>
+          <input id="website" name="website" type="url" inputmode="url" autocomplete="url" spellcheck="false" required
+                 placeholder="https://yourproject.xyz">
+          <p class="hint">The page whose footer should link to Botchain and BotScan.</p>
+        </div>
+        <p class="form-error" id="form-error" role="alert" hidden></p>
+        <div class="actions">
+          <button class="button" type="submit" id="submit">Run the check</button>
+          <p class="progress" id="progress" hidden>Reading BotScan and opening your website. This usually takes 10–20 seconds.</p>
+        </div>
+        <div class="loading-bar" id="loading-bar" hidden><span></span></div>
+      </form>
+    </div>
+  </header>
+
+  <section class="results" id="results" aria-live="polite" hidden></section>
+
+  <section class="rules wrap" id="rules">
+    <p class="rules-lead" data-reveal>A project passes when its mainnet contract shows real use and its website footer points back to BOT Chain.</p>
+    <div class="rules-cols">
+      <p data-reveal style="--i:0"><strong>Five wallets.</strong> At least five different wallets must have sent a transaction to the contract. We count the senders of the contract's transactions on BotScan mainnet.</p>
+      <p data-reveal style="--i:1"><strong>Ten transactions.</strong> The contract needs at least ten transactions in total on BOT Chain mainnet, the same number BotScan shows on the contract's page.</p>
+      <p data-reveal style="--i:2"><strong>Botchain link.</strong> The website footer must contain a clickable link to https://botchain.ai/. Plain text, a link elsewhere on the page, or a link to a subpage does not count.</p>
+      <p data-reveal style="--i:3"><strong>BotScan link.</strong> The footer must also link to https://scan.botchain.ai/, the mainnet explorer. A testnet explorer link or a link to one address page does not count.</p>
+    </div>
+  </section>
+
+  <footer class="footer wrap">
+    <p class="footer-name">Project Checker</p>
+    <div class="footer-row">
+      <p>Built for projects on BOT Chain.</p>
+      <div class="footer-links">
+        <a class="link" href="https://botchain.ai/" target="_blank" rel="noopener">Botchain</a>
+        <a class="link" href="https://scan.botchain.ai/" target="_blank" rel="noopener">BotScan</a>
+        <a class="link" href="https://dev-docs.bohr.life/docs/Developers/" target="_blank" rel="noopener">Developer docs</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
