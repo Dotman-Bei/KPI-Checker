@@ -3,7 +3,7 @@
   "outputDirectory": "public",
   "functions": {
     "api/check.mjs": {
-      "maxDuration": 60,
+      "maxDuration": 90,
       "includeFiles": "node_modules/@sparticuz/chromium/**"
     }
   }

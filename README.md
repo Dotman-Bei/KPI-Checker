@@ -19,6 +19,8 @@ For the footer check the server uses a local Chrome/Chromium in headless mode, s
 
 The repo is ready for Vercel: `public/` is served as static files and `api/check.mjs` runs as a serverless function (settings in `vercel.json`). On Vercel the footer check uses the serverless Chrome build from `@sparticuz/chromium`. When importing the project, keep Root Directory `./` and the defaults. No build command or environment variables are needed.
 
+After deploying, open `https://<your-app>.vercel.app/api/check?diagnose=1`. It should return `"ok": true`, which means the deployment can start its browser. If it returns an error, that error is also written to the function logs.
+
 ## How each check works
 
 **Contract.** The checker accepts a `0x…` address or a `scan.botchain.ai` link and rejects testnet links (`scan.bohr.life`). It reads BotScan's Blockscout API (`/api/v2/addresses/{address}`, `/counters` and `/transactions`):
